@@ -109,16 +109,23 @@ def quitar_distritos_paises(linea):
     paises = []
     archPaises = open("paises.txt", "r")
     paises = archPaises.readlines();
+    paises2 = ""
+    for p in paises:
+        paises2 += p
     archDistritos = open("distritos.txt","r")
     distritos = []
     distritos =  archDistritos.readlines();
     palabras = linea.split(" ")
     nuevaLinea = ""
-    for w in palabras:
-        if w not in paises:
+    count= 0
+    
+    while count<len(palabras):
+        w = palabras[count]
+        if w not in paises2:
             if w not in distritos:
                 nuevaLinea += w
                 nuevaLinea += " "
+        count +=1
     return nuevaLinea
         
 
@@ -276,7 +283,13 @@ def quitar_puntuacion(linea):
         if not i == ',':
             if not i == '"':
                 exclude.add(i)
-    word = ''.join(ch for ch in linea if ch not in exclude)
+    #word = ''.join(ch for ch in linea if ch not in exclude)
+    word = ""
+    for letter in linea:
+        if letter not in exclude:
+            word += letter
+        else:
+            word += " "
     return word
 
 
