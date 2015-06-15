@@ -1,7 +1,3 @@
-# To change this license header, choose License Headers in Project Properties.
-# To change this template file, choose Tools | Templates
-# and open the template in the editor.
-
 import unicodedata
 from nltk.stem.snowball import SnowballStemmer
 from textblob import TextBlob
@@ -239,7 +235,7 @@ def quitar_puntuacion(linea):
 #print limpiarLinea("1,1,1231,iop,\"d,e,s,c\",\"re,q,u,i\"",4)
 
 
-archLectura = open("TA_Registros_etiquetados.csv")
+archLectura = open("TA_Registros_etiquetados1.csv")
 lineas = arreglo_ofertas(archLectura)
 #print lineas[0]
 #print quitar_campo1_2(lineas[0])
@@ -292,7 +288,7 @@ archLectura.seek(0)
 lineas=archLectura.readlines()
 N=3748
 IDF=[] # hallamos IDF por cada palabra
-for word in bag:
+for word in dict:
     DF=0
     for linea in lineas:
         nlinea = linea.decode('utf-8')
@@ -305,16 +301,24 @@ archLectura.seek(0)
 archVect= open('Vectores.txt', 'w')
 archValues=open('values.txt','w')
 lineas=archLectura.readlines()
-
+n=0
+for word in dict:
+    archValues.write(str(word)+',')
+    n+=1
+   
+archValues.write("\n")    
 for linea in lineas:
     nlinea = linea.decode('utf-8')
     oracion= TextBlob(nlinea)
     count=0
-    for word in bag:      #tf=oracion.word_counts[word]
+    for word in dict:      #tf=oracion.word_counts[word]
         dict[word]=oracion.word_counts[word]*IDF[count] # multiplica el tf*idf
         count += 1
-    archValues.write(str(dict.values()))
+        archValues.write(str(dict[word])+',')
+    #archValues.write(str(dict.values()))
+    print count
     archValues.write("\n")
+print n 
 archVect.write(str(dict.keys()))
    
 archVect.close()
