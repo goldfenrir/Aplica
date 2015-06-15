@@ -265,14 +265,22 @@ print contadorEliminados
 
 imprimir_archivo(arregloLineas,"limpio.csv")
 imprimir_archivo(arregloLineasEliminadas,"eliminados.csv")
-
+#Genera el nuevo archivo
 archLectura= open('limpio.csv', 'r')
 lineas=archLectura.readlines()
 i=0
 lineaTotal=""
+primerCampo=True
 for linea in lineas:
+    
     linea= linea[linea.find(',')+1:]
-    lineaTotal+=linea
+    if (primerCampo):
+        primerCampo=False
+    else:        
+        lineaTotal+=linea
+lineaTotal=lineaTotal.replace(',',' ')
+
+
 blob=TextBlob(lineaTotal.decode('utf-8'))
 words=blob.words
 dict = dict.fromkeys(words)
@@ -299,7 +307,7 @@ for word in dict:
 
 archLectura.seek(0)
 archVect= open('Vectores.txt', 'w')
-archValues=open('values.txt','w')
+archValues=open('values.csv','w')
 lineas=archLectura.readlines()
 n=0
 for word in dict:
