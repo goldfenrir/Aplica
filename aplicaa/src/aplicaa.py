@@ -244,7 +244,7 @@ def quitar_puntuacion(linea):
 #print limpiarLinea("1,1,1231,iop,\"d,e,s,c\",\"re,q,u,i\"",4)
 
 
-archLectura = open("TA_Registros_etiquetados.csv")
+archLectura = open("TA_Registros_etiquetados1.csv")
 lineas = arreglo_ofertas(archLectura)
 
 archIngles=open("TA_JobID_English.txt")
@@ -325,20 +325,27 @@ n=0
 for word in dict:
     archValues.write(str(word)+',')
     n+=1
-   
+primer =True
 archValues.write("\n")    
 for linea in lineas:
     nlinea = linea.decode('utf-8')
     oracion= TextBlob(nlinea)
     count=0
+    
     for word in dict:      #tf=oracion.word_counts[word]
         dict[word]=oracion.word_counts[word]*IDF[count] # multiplica el tf*idf
         count += 1
-        archValues.write(str(dict[word])+',')
+        if (primer):
+            primer=False
+            archValues.write(str(dict[word]))
+        else:
+            archValues.write(','+str(dict[word]))
     #archValues.write(str(dict.values()))
-    print count
+    #print count
+    primer=True
     archValues.write("\n")
-print n 
+print n
+print "FIN"
 archVect.write(str(dict.keys()))
    
 archVect.close()
