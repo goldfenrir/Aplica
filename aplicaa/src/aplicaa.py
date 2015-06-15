@@ -244,7 +244,7 @@ def quitar_puntuacion(linea):
 #print limpiarLinea("1,1,1231,iop,\"d,e,s,c\",\"re,q,u,i\"",4)
 
 
-archLectura = open("TA_Registros_etiquetados1.csv")
+archLectura = open("TA_Registros_etiquetados.csv")
 lineas = arreglo_ofertas(archLectura)
 
 archIngles=open("TA_JobID_English.txt")
