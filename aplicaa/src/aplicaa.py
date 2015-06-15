@@ -87,7 +87,7 @@ def stopWordStem(linea):
 def quitarDobleComa(linea):
     return linea.replace(",,", ",")  
 
-def limpiarLinea(linea,numeroCampos): #se limpia una linea
+def  limpiarLinea(linea,numeroCampos): #se limpia una linea
     linea=quitarDobleComa(linea)
     #print linea
     linea=quitar_campo1_2(linea)
