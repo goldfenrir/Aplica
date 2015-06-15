@@ -87,10 +87,13 @@ def stopWordStem(linea):
 def quitarDobleComa(linea):
     return linea.replace(",,", ",")  
 
-def  limpiarLinea(linea,numeroCampos): #se limpia una linea
+def  limpiarLinea(linea,numeroCampos,lineasIngles): #se limpia una linea
     linea=quitarDobleComa(linea)
     #print linea
-    linea=quitar_campo1_2(linea)
+    linea=quitar_campo1_2(linea,lineasIngles)
+    if linea==-1: # si contiene ingles se elimina
+        return -1
+    
     #print linea
     linea=quitarComillasPuestoClase(linea)
     #print linea
@@ -181,7 +184,7 @@ def arreglo_ofertas(archLectura):
 	arregloLineas.append(nuevaLinea)
 	return arregloLineas
 
-def quitar_campo1_2(oferta):
+def quitar_campo1_2(oferta,lineasIngles):
    
     linea = ""
     linea = oferta[1+oferta.find(','):]
@@ -189,8 +192,14 @@ def quitar_campo1_2(oferta):
     clase = ""
     clase = linea[:linea.find(',')]
     
-    linea = linea[1+linea.find(','):]
 
+    linea = linea[1+linea.find(','):]
+    
+    id= ""
+    id = linea[:linea.find(',')]
+    #print id
+    if id in lineasIngles:
+        return -1;
     linea = linea[1+linea.find(','):]
 
     nLinea = ""
@@ -237,6 +246,9 @@ def quitar_puntuacion(linea):
 
 archLectura = open("TA_Registros_etiquetados1.csv")
 lineas = arreglo_ofertas(archLectura)
+
+archIngles=open("TA_JobID_English.txt")
+lineasIngles=archIngles.readlines()
 #print lineas[0]
 #print quitar_campo1_2(lineas[0])
 #
@@ -250,8 +262,8 @@ arregloLineas = []
 arregloLineasEliminadas = []
 for linea in lineas:
     
-    if (limpiarLinea(linea,4)!=-1):
-        arregloLineas.append(limpiarLinea(linea,4))
+    if (limpiarLinea(linea,4,lineasIngles)!=-1):
+        arregloLineas.append(limpiarLinea(linea,4,lineasIngles))
         contador+=1
     else:
         
