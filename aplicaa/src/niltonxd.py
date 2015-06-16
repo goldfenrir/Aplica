@@ -9,6 +9,20 @@ import codecs
 import math
 import string
 #definiciones
+paises = []
+archPaises = open("paises.txt", "r")
+paises = archPaises.readlines()
+paises2 = ""
+for p in paises:
+    paises2 += p
+distritos = []
+archDistritos = open("distritos.txt", "r")
+distritos = archDistritos.readlines()
+distritos2 = ""
+for d in distritos:
+    distritos2 += d
+archDistritos.closed
+archPaises.closed
 def noComillas(campo):    
     for c in campo:
         if (c=="\""):
@@ -81,7 +95,7 @@ def stopWordStem(linea):
     stemmer = SnowballStemmer("spanish")
     primero=True
     for word in words:    
-        if word not in (stopwords.words('spanish')):#Elimnimar Stop words
+        if word not in (stopwords.words('spanish')) and word.lower() not in paises2 and word.lower() not in distritos2:#Elimnimar Stop words
             w=Word(word)        
             if (primero):
                 comentarios+=(stemmer.stem(w.lower()))
@@ -104,30 +118,6 @@ def existeNumero(lin):
             return True;
         
     return False
-
-def quitar_distritos_paises(linea):
-    paises = []
-    archPaises = open("paises.txt", "r")
-    paises = archPaises.readlines();
-    paises2 = ""
-    for p in paises:
-        paises2 += p
-    archDistritos = open("distritos.txt","r")
-    distritos = []
-    distritos =  archDistritos.readlines();
-    palabras = linea.split(" ")
-    nuevaLinea = ""
-    count= 0
-    
-    while count<len(palabras):
-        w = palabras[count]
-        if w not in paises2:
-            if w not in distritos:
-                nuevaLinea += w
-                nuevaLinea += " "
-        count +=1
-    return nuevaLinea
-        
 
 def  limpiarLinea(linea,numeroCampos,lineasIngles): #se limpia una linea
     linea=quitarDobleComa(linea)
@@ -154,7 +144,7 @@ def  limpiarLinea(linea,numeroCampos,lineasIngles): #se limpia una linea
     
     linea=linea.translate(None, '\n')
     
-    linea = quitar_distritos_paises(linea)
+    #linea = quitar_distritos_paises(linea)
     
     if(validarComillas(linea)==False):
         
