@@ -447,7 +447,7 @@ for word in bag:
 primer =True
 archValues.write(',Clase')
 archValues.write("\n")    
-
+ofers=0
 for linea in lineas:
     nlinea = linea.decode('utf-8')
     oracion= TextBlob(nlinea)
@@ -467,7 +467,8 @@ for linea in lineas:
     #print count
     
     primer=True
-    archValues.write(','+clases[count]+"\n")
+    archValues.write(','+clases[ofers]+"\n")
+    ofers+=1
     
 #Fin impresion topp    
 

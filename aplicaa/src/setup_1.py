@@ -1,5 +1,5 @@
 __author__ = "pucp"
-__date__ = "$16/06/2015 12:27:01 AM$"
+__date__ = "$15/06/2015 11:52:38 PM$"
 
 from setuptools import setup, find_packages
 
