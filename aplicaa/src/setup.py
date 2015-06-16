@@ -1,5 +1,5 @@
-__author__ = "pucp"
-__date__ = "$14/06/2015 09:13:49 PM$"
+__author__ = "alulab14"
+__date__ = "$15/06/2015 09:58:41 PM$"
 
 from setuptools import setup, find_packages
 
@@ -13,7 +13,7 @@ setup (
 
        # Fill in these to make your Egg ready for upload to
        # PyPI
-       author='pucp',
+       author='alulab14',
        author_email='',
 
        summary='Just another Python package for the cheese shop',

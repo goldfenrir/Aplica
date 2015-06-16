@@ -349,10 +349,7 @@ blob=TextBlob(lineaTotal.decode('utf-8'))
 words=blob.words
 dict = dict.fromkeys(words)
 dictList=sorted(dict.keys())
-bag=[]
-for word in dict:
-    bag.append(word)
-    
+
 
 #seq = ('name', 'age', 'sex','name')
 
@@ -375,43 +372,110 @@ archValues=open('values.csv','w')
 lineas=archLectura.readlines()
 n=0
 for word in dict:
-    if (n==0):
-        archValues.write(word)
-    else:
-        archValues.write(','+word)
+    dict[word]=0
+#    if (n==0):
+#        archValues.write(word)
+#    else:
+#        archValues.write(','+word)
     n+=1
 primer =True
-archValues.write(',Clase')
-archValues.write("\n")    
+#archValues.write(',Clase')
+#archValues.write("\n")    
 count=0
 for linea in lineas:
     nlinea = linea.decode('utf-8')
     oracion= TextBlob(nlinea)
     
-    
+    count=0
     #print clases[count]
     for word in dict:      #tf=oracion.word_counts[word]
-        dict[word]=oracion.word_counts[word]*IDF[count] # multiplica el tf*idf
-        
+        tfIdf=oracion.word_counts[word]*IDF[count] # multiplica el tf*idf
+        dict[word]+=tfIdf
+        count += 1
+#        if (primer):
+#            primer=False
+#            archValues.write(str(tfIdf))
+#        else:
+#            archValues.write(','+str(tfIdf))
+            
+    #archValues.write(str(dict.values()))
+    #print count
+    
+    primer=True
+    #archValues.write(','+clases[count]+"\n")
+    
+    
+print n
+print "FIN"
+
+
+
+# 1000 rank ========================
+archMostPopular= open('populares.txt', 'w')
+print len(dict)
+list=sorted(dict.values(),reverse=True)
+list=list[:1001]
+print len(list)
+frecMin=list[len(list)-1]
+print frecMin
+bag=[]
+for word in dict:
+    if(dict[word]>frecMin):
+        bag.append(word)
+        archMostPopular.write(str(word)+",");
+        archMostPopular.write(str(dict[word]))
+        archMostPopular.write("\n")
+#Fin 1000 rank    
+
+
+# imprime filtradoo con el top ==========================================
+n1=0
+N=3748
+IDF1=[] # hallamos IDF por cada palabra
+for word in bag:
+    DF=0
+    for linea in lineas:
+        nlinea = linea.decode('utf-8')
+        if word in nlinea:
+            DF+=1      
+    IDF1.append(math.log(N/DF))    
+    if (n1==0):
+        archValues.write(word)
+    else:
+        archValues.write(','+word)
+    n1+=1
+primer =True
+archValues.write(',Clase')
+archValues.write("\n")    
+
+for linea in lineas:
+    nlinea = linea.decode('utf-8')
+    oracion= TextBlob(nlinea)
+    
+    count=0
+    #print clases[count]
+    for word in bag:      #tf=oracion.word_counts[word]
+        tfIdf=oracion.word_counts[word]*IDF1[count] # multiplica el tf*idf
+        count += 1
         if (primer):
             primer=False
-            archValues.write(str(dict[word]))
+            archValues.write(str(tfIdf))
         else:
-            archValues.write(','+str(dict[word]))
+            archValues.write(','+str(tfIdf))
             
     #archValues.write(str(dict.values()))
     #print count
     
     primer=True
     archValues.write(','+clases[count]+"\n")
-    count += 1
-print n
-print "FIN"
-archVect.write(str(dict.keys()))
-   
+    
+#Fin impresion topp    
+
+
+
+
+archVect.write(str(dict.keys()))  
 archVect.close()
 archLectura.close()
-
-
 """
 #print limpiarLinea("1,iop,\"d,e,s,c\",\"re,q,u,i\"",4)"""
